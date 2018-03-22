@@ -5,6 +5,7 @@ import {
   View,
   AsyncStorage
 } from 'react-native';
+import moment from 'moment-timezone';
 
 export default class App extends React.Component {
   constructor(props) {
