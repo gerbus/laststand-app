@@ -1,5 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { 
+  StyleSheet, 
+  Text, 
+  View,
+  AsyncStorage
+} from 'react-native';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -25,13 +30,24 @@ export default class App extends React.Component {
     this.handleChangeUnits = this.handleChangeUnits.bind(this);
   }
   componentDidMount() {
-    // Check querystring for params, apply to state
-    const qs = queryString.parse(window.location.search);
+    // Check storage for params, apply to state
     const state = this.state;
-    if (qs.days) {state.days = qs.days;}
-    if (qs.depth) {state.depth = qs.depth;}
-    if (qs.startHour) {state.startHour = qs.startHour;}
-    if (qs.endHour) {state.endHour = qs.endHour;}
+    AsyncStorage.getItem('days')
+    .then(days => {
+      state.days = days;
+    });
+    AsyncStorage.getItem('depth')
+    .then(depth => {
+      state.depth = depth;
+    });
+    AsyncStorage.getItem('startHour')
+    .then(startHour => {
+      state.startHour = startHour;
+    });
+    AsyncStorage.getItem('endHour')
+    .then(endHour => {
+      state.endHour = endHour;
+    });
     this.setState(state);
     
     // Fetch data from Canadian Hydrographic Service
