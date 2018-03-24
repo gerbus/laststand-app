@@ -9,10 +9,12 @@ import {
   TextInput,
   Image,
   WebView,
-  Linking
+  Linking,
+  ImageBackground
 } from 'react-native';
 import moment from 'moment-timezone';
 import waiting from './spiffygif_40x40.gif';
+import background from './last_stand_2015_july_selgauss_centered.jpg';
 
 
 export default class App extends React.Component {
@@ -129,7 +131,7 @@ export default class App extends React.Component {
   getCurrentConditionsData() {
     // Get Current Water Level Prediction Data
     const nowUtc = moment().format("YYYY-MM-DD HH:mm:ss");
-    console.log(nowUtc);
+    //console.log(nowUtc);
     const startDate = moment(nowUtc).subtract(16,"m");
     const endDate = moment(nowUtc).add(14,"m");
     //console.log(startDate,endDate);
@@ -138,7 +140,7 @@ export default class App extends React.Component {
     fetch(endpoint)
     .then(resp => resp.json())
     .then(rawData => {
-      console.log(rawData.searchReturn.data);
+      //console.log(rawData.searchReturn.data);
       const l1 = parseFloat(rawData.searchReturn.data.data[0].value.$value);
       const l2 = parseFloat(rawData.searchReturn.data.data[1].value.$value);
       const t1 = moment.utc(rawData.searchReturn.data.data[0].boundaryDate.max.$value).valueOf();
@@ -186,155 +188,159 @@ export default class App extends React.Component {
     const endDate = moment().add(this.state.days,"days");
     
     return (
-      <ScrollView>
+      <View>
+        <Image
+        source={background}
+        style={styles.background}
+        />
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          >
 
-        <View 
-          style={styles.intro}>
-          <Text>Low Tide Finder (Vancouver)</Text>
-          <View>
-            <Text>Listed below are dates within 
-              <TextInput 
-                type="number" 
-                max="365"
-                id="days" 
-                value={this.state.days.toString()} 
-                onChange={this.handleChange} 
-                onFocus={this.handleFocus}
-                /> 
-              days (today to {endDate.format("MMM Do")}) on which low tide levels of less than 
-              <TextInput 
-                type="number"
-                step="any"
-                id="depth" 
-                value={this.state.depth.toString()} 
-                onChange={this.handleChange}  
-                onFocus={this.handleFocus}
-                />
-              {this.state.unitsInFeet ? "ft" : "m"} occur between the hours of 
-              <TextInput 
-                type="number" 
-                max="24" 
-                id="startHour" 
-                value={this.state.startHour.toString()} 
-                onChange={this.handleChange}  
-                onFocus={this.handleFocus}
-                />
-              :00 and 
-              <TextInput 
-                type="number" 
-                max="24" 
-                id="endHour" 
-                value={this.state.endHour.toString()} 
-                onChange={this.handleChange}  
-                onFocus={this.handleFocus}
-                />
-              :00 on Vancouver shores.
-            </Text>
-            <View style={{width:"100%"}}>
-              { (this.state.showSubmit) ? (
-              <Button 
-                className="btn btn-primary btn-sm" 
-                onPress={this.handleSubmit}
-                title="Find Low Tides"
-              />
-                ) : null
-               }
-              <Button 
-                onPress={this.handleChangeUnits}
-                title={"Switch to" + this.state.unitsInFeet ? 'meters' : 'feet'}
-              />
-            </View>
-          </View>
-        </View>
-
-        <View className="current">
-          <View className="time">
-            <Text>{this.state.currentDate}{this.state.currentTime}</Text>
-          </View>
-          <View className="conditions">
-            <Text>Current depth is {parseFloat(this.state.currentDepth).toFixed(2)} {this.state.unitsInFeet ? "ft" : "m"}</Text>
-            <View className={this.state.currentDirection}>
-              <Text>({this.state.currentDirection} at {
-              this.state.unitsInFeet ? 
-                parseFloat(this.state.currentRate * 12).toFixed(1) + " inches"
-              :
-                parseFloat(this.state.currentRate * 100).toFixed(1) + " cm"
-            }/min)
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View className="table">
-
-          {(this.state.dataFetched && this.state.data.length > 0) ? (
+          <View 
+            style={styles.intro}
+            >
+            <Text
+              style={styles.title}
+              >Low Tide Finder (Vancouver)</Text>
             <View>
-              <View className="text-back">
-                <Text className="colLeft">When</Text>
-                <Text className="colRight">Low Tide Level</Text>
+              <Text>Listed below are dates within 
+                <TextInput 
+                  type="number" 
+                  max="365"
+                  id="days" 
+                  value={this.state.days.toString()} 
+                  onChange={this.handleChange} 
+                  onFocus={this.handleFocus}
+                  /> 
+                days (today to {endDate.format("MMM Do")}) on which low tide levels of less than 
+                <TextInput 
+                  type="number"
+                  step="any"
+                  id="depth" 
+                  value={this.state.depth.toString()} 
+                  onChange={this.handleChange}  
+                  onFocus={this.handleFocus}
+                  />
+                {this.state.unitsInFeet ? "ft" : "m"} occur between the hours of 
+                <TextInput 
+                  type="number" 
+                  max="24" 
+                  id="startHour" 
+                  value={this.state.startHour.toString()} 
+                  onChange={this.handleChange}  
+                  onFocus={this.handleFocus}
+                  />
+                :00 and 
+                <TextInput 
+                  type="number" 
+                  max="24" 
+                  id="endHour" 
+                  value={this.state.endHour.toString()} 
+                  onChange={this.handleChange}  
+                  onFocus={this.handleFocus}
+                  />
+                :00 on Vancouver shores.
+              </Text>
+              <View style={{width:"100%"}}>
+                { (this.state.showSubmit) ? (
+                <Button 
+                  className="btn btn-primary btn-sm" 
+                  onPress={this.handleSubmit}
+                  title="Find Low Tides"
+                />
+                  ) : null
+                 }
+                <Button 
+                  onPress={this.handleChangeUnits}
+                  title={"Switch to" + this.state.unitsInFeet ? 'meters' : 'feet'}
+                />
               </View>
             </View>
-          ) : null}
+          </View>
 
-          <View>
-          {
-            (this.state.dataFetched) ? (
-              (this.state.data.length > 0) ? (
-                this.state.data.map((item, index) => (
-                  <View key={index} className={'text-back ' + item.className}>
-                    <View>
-                      <Text>{item.dateTime}</Text>
+          <View className="current">
+            <View className="time">
+              <Text>{this.state.currentDate}{this.state.currentTime}</Text>
+            </View>
+            <View className="conditions">
+              <Text>Current depth is {parseFloat(this.state.currentDepth).toFixed(2)} {this.state.unitsInFeet ? "ft" : "m"}</Text>
+              <View className={this.state.currentDirection}>
+                <Text>({this.state.currentDirection} at {
+                this.state.unitsInFeet ? 
+                  parseFloat(this.state.currentRate * 12).toFixed(1) + " inches"
+                :
+                  parseFloat(this.state.currentRate * 100).toFixed(1) + " cm"
+              }/min)
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <View className="table">
+
+            {(this.state.dataFetched && this.state.data.length > 0) ? (
+              <View>
+                <View className="text-back">
+                  <Text className="colLeft">When</Text>
+                  <Text className="colRight">Low Tide Level</Text>
+                </View>
+              </View>
+            ) : null}
+
+            <View>
+            {
+              (this.state.dataFetched) ? (
+                (this.state.data.length > 0) ? (
+                  this.state.data.map((item, index) => (
+                    <View key={index} className={'text-back ' + item.className}>
+                      <View>
+                        <Text>{item.dateTime}</Text>
+                      </View>
+                      <View>
+                        <Text>{parseFloat(item.tideLevel).toFixed(1)} {this.state.unitsInFeet ? "ft" : "m"}</Text>
+                      </View>
                     </View>
-                    <View>
-                      <Text>{parseFloat(item.tideLevel).toFixed(1)} {this.state.unitsInFeet ? "ft" : "m"}</Text>
-                    </View>
+                  )) 
+                ) : (
+                  <View className="text-back">
+                    <Text colSpan="2">No results...</Text>
                   </View>
-                )) 
+                )
               ) : (
                 <View className="text-back">
-                  <Text colSpan="2">No results...</Text>
+                  <Image source={waiting} alt="Loading data..."/>
                 </View>
               )
-            ) : (
-              <View className="text-back">
-                <Image source={waiting} alt="Loading data..."/>
-              </View>
-            )
-          }
+            }
+            </View>
+
           </View>
 
-        </View>
+          <Text 
+            style={styles.info}
+            >Meteorological conditions can cause differences (time and height) between the predicted and the observed tides. These differences are mainly the result of atmospheric pressure changes, strong prolonged winds or variations of freshwater discharge.
+  </Text>
+          <Text
+            style={styles.info}
+            >Low tide levels are in reference to a fixed vertical datum, which water levels should rarely drop beneath.</Text>
+          <Button
+            title="More about vertical datums"
+            onPress={ ()=>{ Linking.openURL('http://www.tides.gc.ca/eng/info/verticaldatums') }}
+            />
 
-        <Text 
-          style={styles.info}
-          >Meteorological conditions can cause differences (time and height) between the predicted and the observed tides. These differences are mainly the result of atmospheric pressure changes, strong prolonged winds or variations of freshwater discharge.
-</Text>
-        <Text
-          style={styles.info}
-          >Low tide levels are in reference to a fixed vertical datum, which water levels should rarely drop beneath.</Text>
-        <Button
-          title="More about vertical datums"
-          onPress={ ()=>{ Linking.openURL('http://www.tides.gc.ca/eng/info/verticaldatums') }}
-          />
+          <Text 
+            style={styles.info}
+            >Data provided by the</Text>
+          <Button
+            title="Canadian Hydrographic Service"
+            onPress={ ()=>{ Linking.openURL('http://www.charts.gc.ca/help-aide/about-apropos/index-eng.asp') }}
+            />
 
-        <Text 
-          style={styles.info}
-          >Data provided by the</Text>
-        <Button
-          title="Canadian Hydrographic Service"
-          onPress={ ()=>{ Linking.openURL('http://www.charts.gc.ca/help-aide/about-apropos/index-eng.asp') }}
-          />
-
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
-  /*render() {
-    return(
-      <ScrollView>
-        <Text>Test</Text>
-      </ScrollView>
-    );
-  }*/
   handleFocus(e) {
     e.target.select();
   }
@@ -403,30 +409,26 @@ export default class App extends React.Component {
     let measureInFeet = s * measureInMeters;    
     return measureInFeet;
   }
-  /*render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
-  }*/
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  background: {
+    position: 'absolute',
+    top: -500,
+    left: -60
   },
-  info: {
-    fontSize: 12,
+  scrollContainer: {
+    padding: 15
   },
   intro: {
     backgroundColor: 'rgba(255,255,255,0.5)',
-    padding: 1,
+    padding: 10,
     marginTop: 20,
+  },
+  title: {
+    fontSize: 22,
+  },
+  info: {
+    fontSize: 12,
   }
 });
