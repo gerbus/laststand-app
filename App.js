@@ -189,16 +189,19 @@ export default class App extends React.Component {
     
     return (
       <View>
+        
         <Image
-        source={background}
-        style={styles.background}
-        />
+          source={background}
+          style={styles.background}
+          />
+        
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           >
 
+          {/* Intro */}
           <View 
-            style={styles.intro}
+            style={[styles.frostedGlass, {marginTop: 25}]}
             >
             <Text
               style={styles.title}
@@ -259,14 +262,26 @@ export default class App extends React.Component {
             </View>
           </View>
 
-          <View className="current">
-            <View className="time">
-              <Text>{this.state.currentDate}{this.state.currentTime}</Text>
+          {/* Current Time/Conditions */}
+          <View 
+            style={[styles.row, {marginTop: 12}]}>
+            <View 
+              style={styles.cell}>
+              <View>
+                <Text style={styles.info}>{this.state.currentDate}</Text>
+              </View>
+              <View>
+                <Text style={styles.info}>{this.state.currentTime}</Text>
+              </View>
             </View>
-            <View className="conditions">
-              <Text>Current depth is {parseFloat(this.state.currentDepth).toFixed(2)} {this.state.unitsInFeet ? "ft" : "m"}</Text>
-              <View className={this.state.currentDirection}>
-                <Text>({this.state.currentDirection} at {
+            <View 
+              style={styles.cell}>
+              <View>
+                <Text style={[styles.info, styles.alignR]}>Current depth is {parseFloat(this.state.currentDepth).toFixed(2)} {this.state.unitsInFeet ? "ft" : "m"}</Text>
+              </View>
+              <View 
+                className={this.state.currentDirection}>
+                <Text style={[styles.info, styles.alignR]}>({this.state.currentDirection} at {
                 this.state.unitsInFeet ? 
                   parseFloat(this.state.currentRate * 12).toFixed(1) + " inches"
                 :
@@ -277,13 +292,19 @@ export default class App extends React.Component {
             </View>
           </View>
 
-          <View className="table">
+          {/* Results Table */}
+          <View 
+            style={styles.frostedGlass}
+            >
 
+            {/* Headings */}
             {(this.state.dataFetched && this.state.data.length > 0) ? (
-              <View>
-                <View className="text-back">
-                  <Text className="colLeft">When</Text>
-                  <Text className="colRight">Low Tide Level</Text>
+              <View style={styles.row}>
+                <View style={styles.cell75}>
+                  <Text style={styles.tableHeading}>When</Text>
+                </View>
+                <View style={styles.cell25}>
+                  <Text style={styles.tableHeading}>Low Tide Level</Text>
                 </View>
               </View>
             ) : null}
@@ -293,22 +314,22 @@ export default class App extends React.Component {
               (this.state.dataFetched) ? (
                 (this.state.data.length > 0) ? (
                   this.state.data.map((item, index) => (
-                    <View key={index} className={'text-back ' + item.className}>
-                      <View>
+                    <View style={styles.row} key={index} className={item.className}>
+                      <View style={styles.cell75}>
                         <Text>{item.dateTime}</Text>
                       </View>
-                      <View>
+                      <View style={styles.cell25}>
                         <Text>{parseFloat(item.tideLevel).toFixed(1)} {this.state.unitsInFeet ? "ft" : "m"}</Text>
                       </View>
                     </View>
                   )) 
                 ) : (
-                  <View className="text-back">
-                    <Text colSpan="2">No results...</Text>
+                  <View>
+                    <Text>No results...</Text>
                   </View>
                 )
               ) : (
-                <View className="text-back">
+                <View>
                   <Image source={waiting} alt="Loading data..."/>
                 </View>
               )
@@ -317,27 +338,31 @@ export default class App extends React.Component {
 
           </View>
 
-          <Text 
-            style={styles.info}
-            >Meteorological conditions can cause differences (time and height) between the predicted and the observed tides. These differences are mainly the result of atmospheric pressure changes, strong prolonged winds or variations of freshwater discharge.
-  </Text>
-          <Text
-            style={styles.info}
-            >Low tide levels are in reference to a fixed vertical datum, which water levels should rarely drop beneath.</Text>
-          <Button
-            title="More about vertical datums"
-            onPress={ ()=>{ Linking.openURL('http://www.tides.gc.ca/eng/info/verticaldatums') }}
-            />
+          {/* Footer/info */}
+          <View>
+            <Text 
+              style={[styles.info, {marginTop: 12}]}
+              >Meteorological conditions can cause differences (time and height) between the predicted and the observed tides. These differences are mainly the result of atmospheric pressure changes, strong prolonged winds or variations of freshwater discharge.
+    </Text>
+            <Text
+              style={[styles.info, {marginTop: 12}]}
+              >Low tide levels are in reference to a fixed vertical datum, which water levels should rarely drop beneath.</Text>
+            <Button
+              title="More about vertical datums"
+              onPress={ ()=>{ Linking.openURL('http://www.tides.gc.ca/eng/info/verticaldatums') }}
+              />
 
-          <Text 
-            style={styles.info}
-            >Data provided by the</Text>
-          <Button
-            title="Canadian Hydrographic Service"
-            onPress={ ()=>{ Linking.openURL('http://www.charts.gc.ca/help-aide/about-apropos/index-eng.asp') }}
-            />
-
+            <Text 
+              style={[styles.info, {marginTop: 12}]}
+              >Data provided by the</Text>
+            <Button
+              title="Canadian Hydrographic Service"
+              onPress={ ()=>{ Linking.openURL('http://www.charts.gc.ca/help-aide/about-apropos/index-eng.asp') }}
+              />
+          </View>
+          
         </ScrollView>
+        
       </View>
     );
   }
@@ -418,17 +443,38 @@ const styles = StyleSheet.create({
     left: -60
   },
   scrollContainer: {
-    padding: 15
-  },
-  intro: {
-    backgroundColor: 'rgba(255,255,255,0.5)',
-    padding: 10,
-    marginTop: 20,
+    padding: 15,
   },
   title: {
     fontSize: 22,
   },
+  frostedGlass: {
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    padding: 10,
+  },
+  row: {
+    flex: 1,
+    alignSelf: 'stretch',
+    flexDirection: 'row'
+  },
+  cell: {
+    flex: 1,
+    alignSelf: 'stretch'
+  },
+  cell75: {
+    flex: 3
+  },
+  cell25: {
+    flex: 1
+  },
+  tableHeading: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
   info: {
-    fontSize: 12,
+    fontSize: 12
+  },
+  alignR: {
+    textAlign: 'right'
   }
 });
