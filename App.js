@@ -10,12 +10,14 @@ import {
   Image,
   WebView,
   Linking,
-  ImageBackground
+  StatusBar
 } from 'react-native';
 import moment from 'moment-timezone';
 import waiting from './spiffygif_40x40.gif';
-import background from './last_stand_2015_july_selgauss_centered.jpg';
-
+import background from './last_stand_2015_july_selgauss_cropped.jpg';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { material } from 'react-native-typography';
+import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -39,6 +41,7 @@ export default class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleChangeUnits = this.handleChangeUnits.bind(this);
+    this.handleSettingsClick = this.handleSettingsClick.bind(this);
   }
   componentDidMount() {
     // Check storage for params, apply to state
@@ -189,11 +192,26 @@ export default class App extends React.Component {
     
     return (
       <View>
-        
+       
         <Image
           source={background}
           style={styles.background}
           />
+        
+        <StatusBar
+          networkActivityIndicatorVisible={true}
+          barStyle='light-content'>
+        </StatusBar>        
+
+        <View style={styles.titleBar}>  
+          <View style={styles.titleBarLeft}>
+            <Text style={material.titleWhite}>Low Tide Predictor</Text>
+            <Text style={material.subheadingWhite}>Vancouver, BC</Text>
+          </View>
+          <View style={styles.titleBarRight}>
+            <IconMaterial name='settings' size={20} color='white' />
+          </View>
+        </View>
         
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
@@ -423,6 +441,9 @@ export default class App extends React.Component {
       currentRate: convertedCurrentRate
     });
   }
+  handleSettingsClick(e) {
+    console.log("Settings");
+  }
   getInMeters(measure) {
     let s = 1;  // assume measure already in meters
     if (this.state.unitsInFeet) s = 1 / 3.28084;
@@ -439,14 +460,30 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   background: {
     position: 'absolute',
-    top: -500,
-    left: -60
   },
   scrollContainer: {
     padding: 15,
   },
+  titleBar: {
+    padding: 13,
+    paddingTop: 13 + getStatusBarHeight(),
+    backgroundColor: '#a07e4c',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  titleBarLeft: {
+    flex: 4,
+  },
+  titleBarRight: {
+    flex: 1,
+  },
   title: {
-    fontSize: 22,
+    fontSize: 20,
+    color: 'white',
+  },
+  subTitle: {
+    fontSize: 14,
+    color: 'white',
   },
   frostedGlass: {
     backgroundColor: 'rgba(255,255,255,0.5)',
@@ -475,6 +512,9 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   alignR: {
-    textAlign: 'right'
+    textAlign: 'right',
+  },
+  alignEnd: {
+    alignSelf: 'flex-end',
   }
 });
