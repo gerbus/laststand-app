@@ -10,7 +10,9 @@ import {
   Image,
   WebView,
   Linking,
-  StatusBar
+  StatusBar,
+  TouchableOpacity,
+  PixelRatio,
 } from 'react-native';
 import moment from 'moment-timezone';
 import waiting from './spiffygif_40x40.gif';
@@ -120,7 +122,8 @@ export default class App extends React.Component {
           // Build data
           data.push({
             className: itemClassName,
-            dateTime: itemDateTime.format("ddd, MMM D, YYYY @ h:mma"),
+            date: itemDateTime.format("dddd, MMM D"),
+            time: itemDateTime.format("h:mma"),
             tideLevel: tideLevelInCurrentUnits
           });
         }
@@ -193,37 +196,71 @@ export default class App extends React.Component {
     return (
       <View>
        
+        {/* Background */}
         <Image
           source={background}
           style={styles.background}
           />
         
+        {/* System Status Bar */}
         <StatusBar
           networkActivityIndicatorVisible={true}
           barStyle='light-content'>
         </StatusBar>        
 
-        <View style={styles.titleBar}>  
-          <View style={styles.titleBarLeft}>
+        {/* App Title Bar */}
+        <View 
+          style={styles.titleBar}
+          >  
+          <View style={{flex: 4}}>
             <Text style={material.titleWhite}>Low Tide Predictor</Text>
             <Text style={material.subheadingWhite}>Vancouver, BC</Text>
           </View>
-          <View style={styles.titleBarRight}>
-            <IconMaterial name='settings' size={20} color='white' />
+          <View style={{flex: 1}}>
+            <TouchableOpacity
+              onPress={this.handleSettingsClick}
+              >
+              <IconMaterial 
+                style={styles.alignEnd}
+                name='settings' 
+                size={28} 
+                color='white'
+                />
+            </TouchableOpacity>
           </View>
         </View>
         
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
+        {/* Current Conditions Bar */}
+        <View 
+          style={[styles.row, {marginTop: 12}]}
           >
+
+          <View style={{flex: 1}}>
+            <Text style={styles.info}>{this.state.currentDate}</Text>
+            <Text style={styles.info}>{this.state.currentTime}</Text>
+          </View>
+
+          <View style={{flex: 1}}>
+            <Text style={[styles.info, styles.alignR]}>Current depth is {parseFloat(this.state.currentDepth).toFixed(2)} {this.state.unitsInFeet ? "ft" : "m"}</Text>
+            <Text style={[styles.info, styles.alignR]}>({this.state.currentDirection} at {
+            this.state.unitsInFeet ? 
+              parseFloat(this.state.currentRate * 12).toFixed(1) + " inches"
+            :
+              parseFloat(this.state.currentRate * 100).toFixed(1) + " cm"
+          }/min)
+            </Text>
+          </View>
+
+        </View>        
+        
+        {/* App Content */}
+        <ScrollView>
 
           {/* Intro */}
           <View 
-            style={[styles.frostedGlass, {marginTop: 25}]}
+            style={[styles.frostedGlass, {marginTop: 25, display: 'none'}]}
             >
-            <Text
-              style={styles.title}
-              >Low Tide Finder (Vancouver)</Text>
+            
             <View>
               <Text>Listed below are dates within 
                 <TextInput 
@@ -233,7 +270,7 @@ export default class App extends React.Component {
                   value={this.state.days.toString()} 
                   onChange={this.handleChange} 
                   onFocus={this.handleFocus}
-                  /> 
+                  />
                 days (today to {endDate.format("MMM Do")}) on which low tide levels of less than 
                 <TextInput 
                   type="number"
@@ -280,49 +317,17 @@ export default class App extends React.Component {
             </View>
           </View>
 
-          {/* Current Time/Conditions */}
-          <View 
-            style={[styles.row, {marginTop: 12}]}>
-            <View 
-              style={styles.cell}>
-              <View>
-                <Text style={styles.info}>{this.state.currentDate}</Text>
-              </View>
-              <View>
-                <Text style={styles.info}>{this.state.currentTime}</Text>
-              </View>
-            </View>
-            <View 
-              style={styles.cell}>
-              <View>
-                <Text style={[styles.info, styles.alignR]}>Current depth is {parseFloat(this.state.currentDepth).toFixed(2)} {this.state.unitsInFeet ? "ft" : "m"}</Text>
-              </View>
-              <View 
-                className={this.state.currentDirection}>
-                <Text style={[styles.info, styles.alignR]}>({this.state.currentDirection} at {
-                this.state.unitsInFeet ? 
-                  parseFloat(this.state.currentRate * 12).toFixed(1) + " inches"
-                :
-                  parseFloat(this.state.currentRate * 100).toFixed(1) + " cm"
-              }/min)
-                </Text>
-              </View>
-            </View>
-          </View>
-
           {/* Results Table */}
-          <View 
-            style={styles.frostedGlass}
-            >
+          <View>
 
             {/* Headings */}
             {(this.state.dataFetched && this.state.data.length > 0) ? (
               <View style={styles.row}>
-                <View style={styles.cell75}>
+                <View style={{flex: 5}}>
                   <Text style={styles.tableHeading}>When</Text>
                 </View>
-                <View style={styles.cell25}>
-                  <Text style={styles.tableHeading}>Low Tide Level</Text>
+                <View style={{flex: 1}}>
+                  <Text style={[styles.alignR, styles.tableHeading]}>Low Tide Level</Text>
                 </View>
               </View>
             ) : null}
@@ -332,12 +337,13 @@ export default class App extends React.Component {
               (this.state.dataFetched) ? (
                 (this.state.data.length > 0) ? (
                   this.state.data.map((item, index) => (
-                    <View style={styles.row} key={index} className={item.className}>
-                      <View style={styles.cell75}>
-                        <Text>{item.dateTime}</Text>
+                    <View style={styles.row} key={index}>
+                      <View style={{flex: 5}}>
+                        <Text>{item.date}</Text>
+                        <Text>{item.time}</Text>
                       </View>
-                      <View style={styles.cell25}>
-                        <Text>{parseFloat(item.tideLevel).toFixed(1)} {this.state.unitsInFeet ? "ft" : "m"}</Text>
+                      <View style={{flex: 1, alignSelf: 'center'}}>
+                        <Text style={styles.alignR}>{parseFloat(item.tideLevel).toFixed(1)} {this.state.unitsInFeet ? "ft" : "m"}</Text>
                       </View>
                     </View>
                   )) 
@@ -461,21 +467,13 @@ const styles = StyleSheet.create({
   background: {
     position: 'absolute',
   },
-  scrollContainer: {
-    padding: 15,
-  },
   titleBar: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 13,
     paddingTop: 13 + getStatusBarHeight(),
     backgroundColor: '#a07e4c',
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  titleBarLeft: {
-    flex: 4,
-  },
-  titleBarRight: {
-    flex: 1,
   },
   title: {
     fontSize: 20,
@@ -490,19 +488,15 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   row: {
-    flex: 1,
-    alignSelf: 'stretch',
-    flexDirection: 'row'
-  },
-  cell: {
-    flex: 1,
-    alignSelf: 'stretch'
-  },
-  cell75: {
-    flex: 3
-  },
-  cell25: {
-    flex: 1
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 21,
+    paddingRight: 21,
+    paddingTop: 13,
+    paddingBottom: 13,
+    borderBottomWidth: 1 / PixelRatio.get(),
+    borderBottomColor: '#a07e4c',
   },
   tableHeading: {
     fontSize: 16,
