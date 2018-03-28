@@ -194,7 +194,9 @@ export default class App extends React.Component {
     const endDate = moment().add(this.state.days,"days");
     
     return (
-      <View>
+      <View
+        style={styles.appContainer}
+        >
        
         {/* Background */}
         <Image
@@ -232,9 +234,9 @@ export default class App extends React.Component {
         
         {/* Current Conditions Bar */}
         <View 
-          style={[styles.row, {marginTop: 12}]}
+          style={styles.conditionsBar}
           >
-
+          
           <View style={{flex: 1}}>
             <Text style={styles.info}>{this.state.currentDate}</Text>
             <Text style={styles.info}>{this.state.currentTime}</Text>
@@ -254,7 +256,9 @@ export default class App extends React.Component {
         </View>        
         
         {/* App Content */}
-        <ScrollView>
+        <ScrollView
+          style={styles.scrollView}
+          >
 
           {/* Intro */}
           <View 
@@ -363,7 +367,10 @@ export default class App extends React.Component {
           </View>
 
           {/* Footer/info */}
-          <View>
+          <View
+            style={styles.footerContainer}
+            >
+            
             <Text 
               style={[styles.info, {marginTop: 12}]}
               >Meteorological conditions can cause differences (time and height) between the predicted and the observed tides. These differences are mainly the result of atmospheric pressure changes, strong prolonged winds or variations of freshwater discharge.
@@ -371,18 +378,22 @@ export default class App extends React.Component {
             <Text
               style={[styles.info, {marginTop: 12}]}
               >Low tide levels are in reference to a fixed vertical datum, which water levels should rarely drop beneath.</Text>
-            <Button
-              title="More about vertical datums"
+            
+            <TouchableOpacity
               onPress={ ()=>{ Linking.openURL('http://www.tides.gc.ca/eng/info/verticaldatums') }}
-              />
-
+              >
+              <Text style={[styles.info, styles.link]}>Read more about vertical datums</Text>
+            </TouchableOpacity>
+            
             <Text 
               style={[styles.info, {marginTop: 12}]}
               >Data provided by the</Text>
-            <Button
-              title="Canadian Hydrographic Service"
+            <TouchableOpacity
               onPress={ ()=>{ Linking.openURL('http://www.charts.gc.ca/help-aide/about-apropos/index-eng.asp') }}
-              />
+              >
+              <Text style={[styles.info, styles.link]}>Canadian Hydrographic Service</Text>
+            </TouchableOpacity>
+            
           </View>
           
         </ScrollView>
@@ -464,6 +475,9 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  appContainer: {
+    flex: 1, /* need to set for ScrollView to have right height */
+  },
   background: {
     position: 'absolute',
   },
@@ -473,7 +487,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 13,
     paddingTop: 13 + getStatusBarHeight(),
-    backgroundColor: '#a07e4c',
+    backgroundColor: 'rgba(160,126,76,0.6)',
+  },
+  conditionsBar: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 13,
+    backgroundColor: 'rgba(160,126,76,0.4)'
   },
   title: {
     fontSize: 20,
@@ -483,9 +504,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'white',
   },
-  frostedGlass: {
+  scrollView: {
     backgroundColor: 'rgba(255,255,255,0.5)',
-    padding: 10,
   },
   row: {
     display: 'flex',
@@ -510,5 +530,14 @@ const styles = StyleSheet.create({
   },
   alignEnd: {
     alignSelf: 'flex-end',
+  },
+  link: {
+    color: '#88ff88',
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
+  },
+  footerContainer: {
+    padding: 13,
   }
 });
