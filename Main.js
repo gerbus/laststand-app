@@ -18,6 +18,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 export default class Main extends React.Component {
   render() {
+    const { navigate } = this.props.navigation;
     const {
       currentDate,
       currentTime,
@@ -27,8 +28,7 @@ export default class Main extends React.Component {
       currentRate,
       dataFetched,
       data,
-      handleSettingsClick,
-    } = this.props;
+    } = this.props.screenProps;
 
     return (
       <View
@@ -45,7 +45,7 @@ export default class Main extends React.Component {
           </View>
           <View style={{flex: 1}}>
             <TouchableOpacity
-              onPress={handleSettingsClick}
+              onPress={() => navigate('Settings')}
               >
               <IconMaterial 
                 style={styles.alignEnd}

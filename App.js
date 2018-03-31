@@ -21,15 +21,37 @@ import { material } from 'react-native-typography';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import Main from './Main';
 import Settings from './Settings';
+import { StackNavigator } from 'react-navigation';
+
+const Navigator = StackNavigator({
+  Main: { 
+    screen: Main,
+    navigationOptions: {
+      title: 'Low Tide Predictor'
+    }
+  },
+  Settings: { 
+    screen: Settings,
+    navigationOptions: {
+      title: 'Settings'
+    }
+  },
+},{
+  initialRouteName: 'Main',
+  headerMode: 'float',
+});
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      /* Settings */
       days: 30,
       depth: 1.5,
       startHour: 9,
       endHour: 16,
+      unitsInFeet: false,      
+      /* Data */
       data: [],
       currentDepth: null,
       currentDirection: "", // "rising" or "falling"
@@ -38,14 +60,11 @@ export default class App extends React.Component {
       currentTime: null,
       showSubmit: false,
       dataFetched: false,
-      unitsInFeet: false,
-      settingsView: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleChangeUnits = this.handleChangeUnits.bind(this);
-    this.handleSettingsClick = this.handleSettingsClick.bind(this);
   }
   componentDidMount() {
     // Check storage for params, apply to state
@@ -193,7 +212,6 @@ export default class App extends React.Component {
     });
   }
   render() {
-    const endDate = moment().add(this.state.days,"days");
     const {
       currentDate,
       currentTime,
@@ -223,21 +241,9 @@ export default class App extends React.Component {
           barStyle='light-content'>
         </StatusBar>        
 
-        {!settingsView ? (
-          <Main 
-            currentDate={currentDate}
-            currentTime={currentTime}
-            currentDepth={currentDepth}
-            unitsInFeet={unitsInFeet}
-            currentDirection={currentDirection}
-            currentRate={currentRate}
-            dataFetched={dataFetched}
-            data={data}
-            handleSettingsClick={this.handleSettingsClick}
-            />
-        ) : (
-          <Settings />
-        )}
+        <Navigator 
+          screenProps={this.state}
+          />
         
       </View>
     );
@@ -298,9 +304,6 @@ export default class App extends React.Component {
       currentDepth: convertedCurrentDepth,
       currentRate: convertedCurrentRate
     });
-  }
-  handleSettingsClick(e) {
-    this.setState({settingsView: true});
   }
   getInMeters(measure) {
     let s = 1;  // assume measure already in meters
