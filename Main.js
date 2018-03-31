@@ -15,15 +15,6 @@ import {
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
-/*  
-  AsyncStorage,
-  Button,
-  TextInput,
-  WebView,
-  StatusBar,
-} from 'react-native';
-import background from './last_stand_2015_july_selgauss_cropped.jpg';
-*/
 
 export default class Main extends React.Component {
   render() {

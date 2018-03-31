@@ -19,7 +19,8 @@ import background from './last_stand_2015_july_selgauss_cropped.jpg';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { material } from 'react-native-typography';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
-import Main from './Main.js';
+import Main from './Main';
+import Settings from './Settings';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -37,7 +38,8 @@ export default class App extends React.Component {
       currentTime: null,
       showSubmit: false,
       dataFetched: false,
-      unitsInFeet: false
+      unitsInFeet: false,
+      settingsView: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -201,6 +203,7 @@ export default class App extends React.Component {
       currentRate,
       dataFetched,
       data,
+      settingsView,
     } = this.state;
     
     return (
@@ -220,18 +223,21 @@ export default class App extends React.Component {
           barStyle='light-content'>
         </StatusBar>        
 
-        {/* Main View */}
-        <Main 
-          currentDate={currentDate}
-          currentTime={currentTime}
-          currentDepth={currentDepth}
-          unitsInFeet={unitsInFeet}
-          currentDirection={currentDirection}
-          currentRate={currentRate}
-          dataFetched={dataFetched}
-          data={data}
-          handleSettingsClick={this.handleSettingsClick}
-          />
+        {!settingsView ? (
+          <Main 
+            currentDate={currentDate}
+            currentTime={currentTime}
+            currentDepth={currentDepth}
+            unitsInFeet={unitsInFeet}
+            currentDirection={currentDirection}
+            currentRate={currentRate}
+            dataFetched={dataFetched}
+            data={data}
+            handleSettingsClick={this.handleSettingsClick}
+            />
+        ) : (
+          <Settings />
+        )}
         
       </View>
     );
@@ -294,7 +300,7 @@ export default class App extends React.Component {
     });
   }
   handleSettingsClick(e) {
-    console.log("Settings");
+    this.setState({settingsView: true});
   }
   getInMeters(measure) {
     let s = 1;  // assume measure already in meters
