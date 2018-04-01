@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import background from './last_stand_2015_july_selgauss_cropped.jpg';
 
 
 export default class Main extends React.Component {
@@ -35,28 +36,12 @@ export default class Main extends React.Component {
         style={styles.appContainer}
         >
 
-        {/* App Title Bar */}
-        <View 
-          style={styles.titleBar}
-          >  
-          <View style={{flex: 4}}>
-            <Text style={material.titleWhite}>Low Tide Predictor</Text>
-            <Text style={material.subheadingWhite}>Vancouver, BC</Text>
-          </View>
-          <View style={{flex: 1}}>
-            <TouchableOpacity
-              onPress={() => navigate('Settings')}
-              >
-              <IconMaterial 
-                style={styles.alignEnd}
-                name='settings' 
-                size={28} 
-                color='white'
-                />
-            </TouchableOpacity>
-          </View>
-        </View>
-        
+        {/* Background */}
+        <Image
+          source={background}
+          style={styles.background}
+          />
+
         {/* Current Conditions Bar */}
         <View 
           style={styles.conditionsBar}

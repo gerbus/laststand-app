@@ -26,18 +26,6 @@ export default class Settings extends React.Component {
         style={styles.appContainer}
         >
 
-        {/* App Title Bar */}
-        <View 
-          style={styles.titleBar}
-          >  
-          <View style={{flex: 4}}>
-            <Text style={material.titleWhite}>Settings</Text>
-          </View>
-          <View style={{flex: 1}}>
-            
-          </View>
-        </View>
-        
         {/* Settings */}
         <ScrollView
           style={styles.scrollView}

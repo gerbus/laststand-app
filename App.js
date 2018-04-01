@@ -15,7 +15,6 @@ import {
   PixelRatio,
 } from 'react-native';
 import moment from 'moment-timezone';
-import background from './last_stand_2015_july_selgauss_cropped.jpg';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { material } from 'react-native-typography';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
@@ -26,14 +25,35 @@ import { StackNavigator } from 'react-navigation';
 const Navigator = StackNavigator({
   Main: { 
     screen: Main,
-    navigationOptions: {
-      title: 'Low Tide Predictor'
-    }
+    navigationOptions: ({navigation, screenProps}) => ({
+      title: 'Low Tide Predictor',
+      headerStyle: {
+        backgroundColor: '#977651',
+      },
+      headerTitleStyle: material.titleWhite,
+      headerTintColor: '#fff',
+      headerRight: (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Settings')}
+          >
+          <IconMaterial 
+            name='settings' 
+            size={28} 
+            color='white'
+            />
+        </TouchableOpacity>
+      )
+    })
   },
   Settings: { 
     screen: Settings,
     navigationOptions: {
-      title: 'Settings'
+      title: 'Settings',
+      headerStyle: {
+        backgroundColor: '#977651',
+      },
+      headerTitleStyle: material.titleWhite,
+      headerTintColor: '#fff',
     }
   },
 },{
@@ -225,27 +245,9 @@ export default class App extends React.Component {
     } = this.state;
     
     return (
-      <View
-        style={styles.appContainer}
-        >
-       
-        {/* Background */}
-        <Image
-          source={background}
-          style={styles.background}
-          />
-        
-        {/* System Status Bar */}
-        <StatusBar
-          networkActivityIndicatorVisible={true}
-          barStyle='light-content'>
-        </StatusBar>        
-
-        <Navigator 
-          screenProps={this.state}
-          />
-        
-      </View>
+      <Navigator 
+        screenProps={this.state}
+        />
     );
   }
   handleFocus(e) {
