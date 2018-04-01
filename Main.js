@@ -1,6 +1,3 @@
-import moment from 'moment-timezone';
-import { material } from 'react-native-typography';
-import waiting from './spiffygif_40x40.gif';
 import React from 'react';
 import { 
   StyleSheet, 
@@ -12,14 +9,15 @@ import {
   Linking,
   PixelRatio,
 } from 'react-native';
+import moment from 'moment-timezone';
+import { material } from 'react-native-typography';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import background from './last_stand_2015_july_selgauss_cropped.jpg';
-
+import waiting from './spiffygif_40x40.gif';
 
 export default class Main extends React.Component {
   render() {
-    const { navigate } = this.props.navigation;
     const {
       currentDate,
       currentTime,
@@ -75,7 +73,7 @@ export default class Main extends React.Component {
 
             {/* Headings */}
             {(dataFetched && data.length > 0) ? (
-              <View style={styles.row}>
+              <View style={[styles.flexContainer,styles.row]}>
                 <View style={{flex: 5}}>
                   <Text style={styles.tableHeading}>When</Text>
                 </View>
@@ -90,7 +88,7 @@ export default class Main extends React.Component {
               (dataFetched) ? (
                 (data.length > 0) ? (
                   data.map((item, index) => (
-                    <View style={styles.row} key={index}>
+                    <View style={[styles.flexContainer,styles.row]} key={index}>
                       <View style={{flex: 5}}>
                         <Text>{item.date}</Text>
                         <Text>{item.time}</Text>
@@ -159,14 +157,6 @@ const styles = StyleSheet.create({
   background: {
     position: 'absolute',
   },
-  titleBar: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 13,
-    paddingTop: 13 + getStatusBarHeight(),
-    backgroundColor: 'rgba(160,126,76,0.6)',
-  },
   conditionsBar: {
     display: 'flex',
     flexDirection: 'row',
@@ -174,20 +164,14 @@ const styles = StyleSheet.create({
     padding: 13,
     backgroundColor: 'rgba(160,126,76,0.4)'
   },
-  title: {
-    fontSize: 20,
-    color: 'white',
-  },
-  subTitle: {
-    fontSize: 14,
-    color: 'white',
-  },
   scrollView: {
     backgroundColor: 'rgba(255,255,255,0.5)',
   },
-  row: {
+  flexContainer: {
     display: 'flex',
     flexDirection: 'row',
+  },
+  row: {
     alignItems: 'center',
     paddingLeft: 21,
     paddingRight: 21,
@@ -205,9 +189,6 @@ const styles = StyleSheet.create({
   },
   alignR: {
     textAlign: 'right',
-  },
-  alignEnd: {
-    alignSelf: 'flex-end',
   },
   link: {
     color: '#88ff88',

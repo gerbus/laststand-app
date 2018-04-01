@@ -78,12 +78,12 @@ export default class App extends React.Component {
       currentRate: null,
       currentDate: null,
       currentTime: null,
+      /* Other */
       showSubmit: false,
       dataFetched: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
     this.handleChangeUnits = this.handleChangeUnits.bind(this);
   }
   componentDidMount() {
@@ -250,9 +250,6 @@ export default class App extends React.Component {
         />
     );
   }
-  handleFocus(e) {
-    e.target.select();
-  }
   handleChange(e) {
     if (e.target.type === "number" && e.target.max) {
       if (parseFloat(e.target.value) > parseFloat(e.target.max)) {
@@ -319,71 +316,3 @@ export default class App extends React.Component {
     return measureInFeet;
   }
 }
-
-const styles = StyleSheet.create({
-  appContainer: {
-    flex: 1, /* need to set for ScrollView to have right height */
-  },
-  background: {
-    position: 'absolute',
-  },
-  titleBar: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 13,
-    paddingTop: 13 + getStatusBarHeight(),
-    backgroundColor: 'rgba(160,126,76,0.6)',
-  },
-  conditionsBar: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 13,
-    backgroundColor: 'rgba(160,126,76,0.4)'
-  },
-  title: {
-    fontSize: 20,
-    color: 'white',
-  },
-  subTitle: {
-    fontSize: 14,
-    color: 'white',
-  },
-  scrollView: {
-    backgroundColor: 'rgba(255,255,255,0.5)',
-  },
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingLeft: 21,
-    paddingRight: 21,
-    paddingTop: 13,
-    paddingBottom: 13,
-    borderBottomWidth: 1 / PixelRatio.get(),
-    borderBottomColor: '#a07e4c',
-  },
-  tableHeading: {
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
-  info: {
-    fontSize: 12
-  },
-  alignR: {
-    textAlign: 'right',
-  },
-  alignEnd: {
-    alignSelf: 'flex-end',
-  },
-  link: {
-    color: '#88ff88',
-    textShadowColor: '#000',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 1,
-  },
-  footerContainer: {
-    padding: 13,
-  }
-});
