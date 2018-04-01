@@ -1,5 +1,3 @@
-import moment from 'moment-timezone';
-import { material } from 'react-native-typography';
 import React from 'react';
 import { 
   StyleSheet, 
@@ -11,15 +9,24 @@ import {
   Linking,
   PixelRatio,
 } from 'react-native';
+import { 
+  material, 
+  materialColors 
+} from 'react-native-typography';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
+import moment from 'moment-timezone';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 
 export default class Settings extends React.Component {
   render() {
-    /*const {
+    const {
       unitsInFeet,
-    } = this.props;*/
+      days,
+      depth,
+      startHour,
+      endHour,
+    } = this.props.screenProps;
 
     return (
       <View
@@ -31,8 +38,9 @@ export default class Settings extends React.Component {
           style={styles.scrollView}
           >
 
-          <View>
-            <Text>Settings</Text>
+          <View style={styles.row}>
+            <Text style={material.subheading}>Units</Text>
+            <Text style={[material.body1, styles.settingsValue]}>{unitsInFeet ? 'Feet' : 'Meters'}</Text>
           </View>
           
         </ScrollView>
@@ -46,26 +54,22 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1, /* need to set for ScrollView to have right height */
   },
-  titleBar: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 13,
-    paddingTop: 13 + getStatusBarHeight(),
-    backgroundColor: 'rgba(160,126,76,0.6)',
-  },
   scrollView: {
     backgroundColor: 'rgba(255,255,255,0.5)',
   },
-  row: {
+  flexContainer: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+  },
+  row: {
     paddingLeft: 21,
     paddingRight: 21,
     paddingTop: 13,
     paddingBottom: 13,
     borderBottomWidth: 1 / PixelRatio.get(),
     borderBottomColor: '#a07e4c',
+  },
+  settingsValue: {
+    color: materialColors.blackSecondary
   }
 });
