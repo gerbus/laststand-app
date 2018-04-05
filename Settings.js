@@ -42,6 +42,26 @@ export default class Settings extends React.Component {
             <Text style={material.subheading}>Units</Text>
             <Text style={[material.body1, styles.settingsValue]}>{unitsInFeet ? 'Feet' : 'Meters'}</Text>
           </View>
+    
+          <View style={styles.row}>
+            <Text style={material.subheading}>Days to Look Forward</Text>
+            <Text style={[material.body1, styles.settingsValue]}>{days}</Text>
+          </View>      
+
+          <View style={styles.row}>
+            <Text style={material.subheading}>Highest depth to show</Text>
+            <Text style={[material.body1, styles.settingsValue]}>{depth} {unitsInFeet ? 'ft' : 'm'}</Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={material.subheading}>Earliest hour to show</Text>
+            <Text style={[material.body1, styles.settingsValue]}>{startHour}:00</Text>
+          </View>
+      
+          <View style={styles.row}>
+            <Text style={material.subheading}>Latest hour to show</Text>
+            <Text style={[material.body1, styles.settingsValue]}>{endHour}:00</Text>
+          </View>
           
         </ScrollView>
         
