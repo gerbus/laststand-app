@@ -20,6 +20,15 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 
 export default class Settings extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      settingDays: false,
+      settingDepth: false,
+      settingStartHour: false,
+      settingEndHour: false
+    }
+  }
   render() {
     const {
       unitsInFeet,
@@ -27,8 +36,17 @@ export default class Settings extends React.Component {
       depth,
       startHour,
       endHour,
-    } = this.props.screenProps;
-
+    } = this.props.screenProps.state;
+    const {
+      handleChangeUnits
+    } = this.props.screenProps.handlers;
+    const {
+      settingDays,
+      settingDepth,
+      settingStartHour,
+      settingEndHour,
+    } = this.state;
+    
     return (
       <View
         style={styles.appContainer}
@@ -41,14 +59,14 @@ export default class Settings extends React.Component {
 
           <TouchableHighlight 
             underlayColor='#dddddd'
-            onPress={() => this.props.navigation.navigate('SettingUnits')}
+            onPress={handleChangeUnits}
             >
             <View style={styles.row}>
               <Text style={material.subheading}>Units</Text>
               <Text style={[material.body1, styles.settingsValue]}>{unitsInFeet ? 'Feet' : 'Meters'}</Text>
             </View>
           </TouchableHighlight>
-    
+          
           <View style={styles.row}>
             <Text style={material.subheading}>Days to Look Forward</Text>
             <Text style={[material.body1, styles.settingsValue]}>{days}</Text>

@@ -61,20 +61,6 @@ const Navigator = StackNavigator({
   headerMode: 'float',
 });
 
-const ModalNavigator = StackNavigator({
-  Main: {
-    screen: Navigator
-  },
-  SettingUnits: {
-    screen: SettingUnits
-  }
-},
-{
-  initialRouteName: 'Main',
-  mode: 'modal',
-  headerMode: 'none',
-});
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -259,8 +245,15 @@ export default class App extends React.Component {
     } = this.state;
     
     return (
-      <ModalNavigator 
-        screenProps={this.state}
+      <Navigator 
+        screenProps={
+          {
+            state: this.state,
+            handlers: {
+              handleChangeUnits: this.handleChangeUnits    
+            },
+          }
+        }
         />
     );
   }
