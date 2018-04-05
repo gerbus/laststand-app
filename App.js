@@ -19,7 +19,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { material } from 'react-native-typography';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import Main from './Main';
-import Settings from './Settings';
+import Settings, { SettingUnits } from './Settings';
 import { StackNavigator } from 'react-navigation';
 
 const Navigator = StackNavigator({
@@ -59,6 +59,20 @@ const Navigator = StackNavigator({
 },{
   initialRouteName: 'Main',
   headerMode: 'float',
+});
+
+const ModalNavigator = StackNavigator({
+  Main: {
+    screen: Navigator
+  },
+  SettingUnits: {
+    screen: SettingUnits
+  }
+},
+{
+  initialRouteName: 'Main',
+  mode: 'modal',
+  headerMode: 'none',
 });
 
 export default class App extends React.Component {
@@ -245,7 +259,7 @@ export default class App extends React.Component {
     } = this.state;
     
     return (
-      <Navigator 
+      <ModalNavigator 
         screenProps={this.state}
         />
     );

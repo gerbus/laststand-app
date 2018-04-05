@@ -46,13 +46,13 @@ export default class Main extends React.Component {
           >
           
           <View style={{flex: 1}}>
-            <Text style={styles.info}>{currentDate}</Text>
-            <Text style={styles.info}>{currentTime}</Text>
+            <Text style={styles.current}>{currentDate}</Text>
+            <Text style={styles.current}>{currentTime}</Text>
           </View>
 
           <View style={{flex: 1}}>
-            <Text style={[styles.info, styles.alignR]}>Current depth is {parseFloat(currentDepth).toFixed(2)} {unitsInFeet ? "ft" : "m"}</Text>
-            <Text style={[styles.info, styles.alignR]}>({currentDirection} at {
+            <Text style={[styles.current, styles.alignR]}>Current depth is {parseFloat(currentDepth).toFixed(2)} {unitsInFeet ? "ft" : "m"}</Text>
+            <Text style={[styles.current, styles.alignR]}>({currentDirection} at {
             unitsInFeet ? 
               parseFloat(currentRate * 12).toFixed(1) + " inches"
             :

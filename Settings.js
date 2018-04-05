@@ -8,6 +8,7 @@ import {
   Image,
   Linking,
   PixelRatio,
+  TouchableHighlight
 } from 'react-native';
 import { 
   material, 
@@ -38,10 +39,15 @@ export default class Settings extends React.Component {
           style={styles.scrollView}
           >
 
-          <View style={styles.row}>
-            <Text style={material.subheading}>Units</Text>
-            <Text style={[material.body1, styles.settingsValue]}>{unitsInFeet ? 'Feet' : 'Meters'}</Text>
-          </View>
+          <TouchableHighlight 
+            underlayColor='#dddddd'
+            onPress={() => this.props.navigation.navigate('SettingUnits')}
+            >
+            <View style={styles.row}>
+              <Text style={material.subheading}>Units</Text>
+              <Text style={[material.body1, styles.settingsValue]}>{unitsInFeet ? 'Feet' : 'Meters'}</Text>
+            </View>
+          </TouchableHighlight>
     
           <View style={styles.row}>
             <Text style={material.subheading}>Days to Look Forward</Text>
@@ -50,7 +56,7 @@ export default class Settings extends React.Component {
 
           <View style={styles.row}>
             <Text style={material.subheading}>Highest depth to show</Text>
-            <Text style={[material.body1, styles.settingsValue]}>{depth} {unitsInFeet ? 'ft' : 'm'}</Text>
+            <Text style={[material.body1, styles.settingsValue]}>{depth} {unitsInFeet ? 'feet' : 'meters'}</Text>
           </View>
 
           <View style={styles.row}>
@@ -70,6 +76,17 @@ export default class Settings extends React.Component {
   }
 }
 
+export class SettingUnits extends React.Component {
+  render() {
+    const {
+      unitsInFeet
+    } = this.props.screenProps;
+    
+    return (
+      <Text>Modal</Text>
+    );
+  }
+}
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1, /* need to set for ScrollView to have right height */
