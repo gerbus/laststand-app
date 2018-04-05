@@ -26,8 +26,12 @@ export default class Settings extends React.Component {
       settingDays: false,
       settingDepth: false,
       settingStartHour: false,
-      settingEndHour: false
-    }
+      settingEndHour: false,
+    };
+    this.handleShowDaysModal = this.handleShowDaysModal.bind(this);
+  }
+  handleShowDaysModal() {
+    this.setState({settingDays: true});
   }
   render() {
     const {
@@ -67,10 +71,15 @@ export default class Settings extends React.Component {
             </View>
           </TouchableHighlight>
           
-          <View style={styles.row}>
-            <Text style={material.subheading}>Days to Look Forward</Text>
-            <Text style={[material.body1, styles.settingsValue]}>{days}</Text>
-          </View>      
+          <TouchableHighlight
+            underlayColor='#dddddd'
+            onPress={this.handleShowDaysModal}
+            >
+            <View style={styles.row}>
+              <Text style={material.subheading}>Days to look forward</Text>
+              <Text style={[material.body1, styles.settingsValue]}>{days}</Text>
+            </View>
+          </TouchableHighlight>
 
           <View style={styles.row}>
             <Text style={material.subheading}>Highest depth to show</Text>
@@ -89,22 +98,20 @@ export default class Settings extends React.Component {
           
         </ScrollView>
         
+        {/* Modals */}
+        <View
+          style={settingDays ? styles.modalBackground : styles.hidden}
+          >
+          <View style={styles.modal}>
+            <Text>Setting days...</Text>
+          </View>
+        </View>
+        
       </View>
     );
   }
 }
 
-export class SettingUnits extends React.Component {
-  render() {
-    const {
-      unitsInFeet
-    } = this.props.screenProps;
-    
-    return (
-      <Text>Modal</Text>
-    );
-  }
-}
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1, /* need to set for ScrollView to have right height */
@@ -126,5 +133,13 @@ const styles = StyleSheet.create({
   },
   settingsValue: {
     color: materialColors.blackSecondary
+  },
+  modalBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  hidden: {
+    display: 'none'
   }
 });
