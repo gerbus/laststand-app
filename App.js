@@ -1,18 +1,8 @@
 import React from 'react';
 import { 
   StyleSheet, 
-  Text, 
-  View,
   AsyncStorage,
-  ScrollView,
-  Button,
-  TextInput,
-  Image,
-  WebView,
-  Linking,
-  StatusBar,
   TouchableOpacity,
-  PixelRatio,
 } from 'react-native';
 import moment from 'moment-timezone';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
