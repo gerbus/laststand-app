@@ -20,6 +20,13 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 
 export default class Settings extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChangeDays = this.handleChangeDays.bind(this);
+  }
+  handleChangeDays() {
+    this.props.navigation.navigate('SettingDays');
+  }
   render() {
     const {
       unitsInFeet,
@@ -52,11 +59,16 @@ export default class Settings extends React.Component {
             </View>
           </TouchableHighlight>
     
-          <View style={styles.row}>
-            <Text style={material.subheading}>Days to Look Forward</Text>
-            <Text style={[material.body1, styles.settingsValue]}>{days}</Text>
-          </View>      
-
+          <TouchableHighlight
+            underlayColor='#dddddd'
+            onPress={this.handleChangeDays}
+            >
+            <View style={styles.row}>
+              <Text style={material.subheading}>Days to Look Forward</Text>
+              <Text style={[material.body1, styles.settingsValue]}>{days}</Text>
+            </View>      
+          </TouchableHighlight>
+          
           <View style={styles.row}>
             <Text style={material.subheading}>Highest depth to show</Text>
             <Text style={[material.body1, styles.settingsValue]}>{depth} {unitsInFeet ? 'feet' : 'meters'}</Text>
@@ -79,7 +91,7 @@ export default class Settings extends React.Component {
   }
 }
 
-export class SettingUnits extends React.Component {
+export class SettingDays extends React.Component {
   render() {
     const {
       unitsInFeet
@@ -90,6 +102,7 @@ export class SettingUnits extends React.Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1, /* need to set for ScrollView to have right height */

@@ -9,7 +9,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { material } from 'react-native-typography';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import Main from './Main';
-import Settings, { SettingUnits } from './Settings';
+import Settings, { SettingDays } from './Settings';
 import { StackNavigator } from 'react-navigation';
 
 const Navigator = StackNavigator({
@@ -55,8 +55,8 @@ const ModalNavigator = StackNavigator({
   Main: {
     screen: Navigator
   },
-  SettingUnits: {
-    screen: SettingUnits
+  SettingDays: {
+    screen: SettingDays
   }
 },
 {
