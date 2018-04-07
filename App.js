@@ -260,7 +260,14 @@ export default class App extends React.Component {
     
     return (
       <ModalNavigator 
-        screenProps={this.state}
+        screenProps={
+          {
+            state: this.state,
+            handlers: {
+              handleChangeUnits: this.handleChangeUnits    
+            },
+          }
+        }
         />
     );
   }

@@ -27,7 +27,7 @@ export default class Main extends React.Component {
       currentRate,
       dataFetched,
       data,
-    } = this.props.screenProps;
+    } = this.props.screenProps.state;
 
     return (
       <View

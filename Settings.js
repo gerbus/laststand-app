@@ -27,7 +27,10 @@ export default class Settings extends React.Component {
       depth,
       startHour,
       endHour,
-    } = this.props.screenProps;
+    } = this.props.screenProps.state;
+    const {
+      handleChangeUnits
+    } = this.props.screenProps.handlers;
 
     return (
       <View
@@ -41,7 +44,7 @@ export default class Settings extends React.Component {
 
           <TouchableHighlight 
             underlayColor='#dddddd'
-            onPress={() => this.props.navigation.navigate('SettingUnits')}
+            onPress={handleChangeUnits}
             >
             <View style={styles.row}>
               <Text style={material.subheading}>Units</Text>
