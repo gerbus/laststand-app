@@ -8,7 +8,8 @@ import {
   Image,
   Linking,
   PixelRatio,
-  TouchableHighlight
+  TouchableHighlight,
+  Modal,
 } from 'react-native';
 import { 
   material, 
@@ -29,9 +30,15 @@ export default class Settings extends React.Component {
       settingEndHour: false,
     };
     this.handleShowDaysModal = this.handleShowDaysModal.bind(this);
+    this.handleHideDaysModal = this.handleHideDaysModal.bind(this);
   }
   handleShowDaysModal() {
+    //this.props.navigation.setParams({ headerStyleBackgroundColor: '#000000' });
     this.setState({settingDays: true});
+  }
+  handleHideDaysModal() {
+    //this.props.navigation.setParams({ headerStyleBackgroundColor: '#977651' });
+    this.setState({settingDays: false});
   }
   render() {
     const {
@@ -50,6 +57,8 @@ export default class Settings extends React.Component {
       settingStartHour,
       settingEndHour,
     } = this.state;
+    
+    //console.log(this.props);
     
     return (
       <View
@@ -99,13 +108,16 @@ export default class Settings extends React.Component {
         </ScrollView>
         
         {/* Modals */}
-        <View
-          style={settingDays ? styles.modalBackground : styles.hidden}
+        <Modal
+          visible={settingDays}
+          onRequestClose={this.handleHideDaysModal}
+          transparent={true}
+          animationType='fade'
           >
-          <View style={styles.modal}>
+          <View style={styles.modalBackground}>
             <Text>Setting days...</Text>
           </View>
-        </View>
+        </Modal>
         
       </View>
     );
@@ -136,8 +148,11 @@ const styles = StyleSheet.create({
   },
   modalBackground: {
     position: 'absolute',
-    top: 0,
+    top: -10,
     left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.6)'
   },
   hidden: {
     display: 'none'

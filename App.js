@@ -24,7 +24,7 @@ const Navigator = StackNavigator({
       headerTintColor: '#fff',
       headerRight: (
         <TouchableOpacity
-          onPress={() => navigation.navigate('Settings')}
+          onPress={() => navigation.navigate('Settings',{headerStyleBackgroundColor: '#977651'})}
           >
           <IconMaterial 
             name='settings' 
@@ -37,14 +37,14 @@ const Navigator = StackNavigator({
   },
   Settings: { 
     screen: Settings,
-    navigationOptions: {
+    navigationOptions: ({navigation}) => ({
       title: 'Settings',
       headerStyle: {
-        backgroundColor: '#977651',
+        backgroundColor: navigation.state.params.headerStyleBackgroundColor,
       },
       headerTitleStyle: material.titleWhite,
       headerTintColor: '#fff',
-    }
+    })
   },
 },{
   initialRouteName: 'Main',
