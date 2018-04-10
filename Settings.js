@@ -28,7 +28,24 @@ export default class Settings extends React.Component {
       settingStartHour: false,
       settingEndHour: false
     }
+    this.handleShowSettingsDays = this.handleShowSettingsDays.bind(this);
+    this.handleShowSettingsDepth = this.handleShowSettingsDepth.bind(this);
+    this.handleShowSettingsStartHour = this.handleShowSettingsStartHour.bind(this);
+    this.handleShowSettingsEndHour = this.handleShowSettingsEndHour.bind(this);
   }
+  handleShowSettingsDays() {
+    this.props.navigation.navigate('SettingsDays');
+  }
+  handleShowSettingsDepth() {
+    this.props.navigation.navigate('SettingsDepth');
+  }
+  handleShowSettingsStartHour() {
+    this.props.navigation.navigate('SettingsStartHour');
+  }
+  handleShowSettingsEndHour() {
+    this.props.navigation.navigate('SettingsEndHour');
+  }
+
   render() {
     const {
       unitsInFeet,
@@ -67,25 +84,45 @@ export default class Settings extends React.Component {
             </View>
           </TouchableHighlight>
           
-          <View style={styles.row}>
-            <Text style={material.subheading}>Days to Look Forward</Text>
-            <Text style={[material.body1, styles.settingsValue]}>{days}</Text>
-          </View>      
+          <TouchableHighlight
+            underlayColor='#dddddd'
+            onPress={this.handleShowSettingsDays}
+            >
+            <View style={styles.row}>
+              <Text style={material.subheading}>Days to Look Forward</Text>
+              <Text style={[material.body1, styles.settingsValue]}>{days}</Text>
+            </View>      
+          </TouchableHighlight>
+          
+          <TouchableHighlight
+            underlayColor='#dddddd'
+            onPress={this.handleShowSettingsDepth}
+            >
+            <View style={styles.row}>
+              <Text style={material.subheading}>Highest depth to show</Text>
+              <Text style={[material.body1, styles.settingsValue]}>{depth} {unitsInFeet ? 'feet' : 'meters'}</Text>
+            </View>
+          </TouchableHighlight>
 
-          <View style={styles.row}>
-            <Text style={material.subheading}>Highest depth to show</Text>
-            <Text style={[material.body1, styles.settingsValue]}>{depth} {unitsInFeet ? 'feet' : 'meters'}</Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={material.subheading}>Earliest hour to show</Text>
-            <Text style={[material.body1, styles.settingsValue]}>{startHour}:00</Text>
-          </View>
+          <TouchableHighlight
+            underlayColor='#dddddd'
+            onPress={this.handleShowSettingsStartHour}
+            >
+            <View style={styles.row}>
+              <Text style={material.subheading}>Earliest hour to show</Text>
+              <Text style={[material.body1, styles.settingsValue]}>{startHour}:00</Text>
+            </View>
+          </TouchableHighlight>
       
-          <View style={styles.row}>
-            <Text style={material.subheading}>Latest hour to show</Text>
-            <Text style={[material.body1, styles.settingsValue]}>{endHour}:00</Text>
-          </View>
+          <TouchableHighlight
+            underlayColor='#dddddd'
+            onPress={this.handleShowSettingsEndHour}
+            >
+            <View style={styles.row}>
+              <Text style={material.subheading}>Latest hour to show</Text>
+              <Text style={[material.body1, styles.settingsValue]}>{endHour}:00</Text>
+            </View>
+          </TouchableHighlight>
           
         </ScrollView>
         
@@ -94,17 +131,55 @@ export default class Settings extends React.Component {
   }
 }
 
-export class SettingUnits extends React.Component {
+export class SettingsDays extends React.Component {
   render() {
     const {
-      unitsInFeet
-    } = this.props.screenProps;
+      days
+    } = this.props.screenProps.state;
     
     return (
-      <Text>Modal</Text>
+      <Text>{days}</Text>
     );
   }
 }
+
+export class SettingsDepth extends React.Component {
+  render() {
+    const {
+      unitsInFeet,
+      depth
+    } = this.props.screenProps.state;
+    
+    return (
+      <Text>{depth}</Text>
+    );
+  }
+}
+
+export class SettingsStartHour extends React.Component {
+  render() {
+    const {
+      startHour
+    } = this.props.screenProps;
+    
+    return (
+      <Text>{startHour}</Text>
+    );
+  }
+}
+
+export class SettingsEndHour extends React.Component {
+  render() {
+    const {
+      endHour
+    } = this.props.screenProps;
+    
+    return (
+      <Text>{endHour}</Text>
+    );
+  }
+}
+
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1, /* need to set for ScrollView to have right height */

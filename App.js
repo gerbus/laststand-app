@@ -19,19 +19,27 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { material } from 'react-native-typography';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import Main from './Main';
-import Settings, { SettingUnits } from './Settings';
+import Settings, { 
+  SettingsDays,
+  SettingsDepth,
+  SettingsStartHour,
+  SettingsEndHour,
+} from './Settings';
 import { StackNavigator } from 'react-navigation';
 
+const navigationOptionsCommon = {
+  headerStyle: {
+    backgroundColor: '#977651',
+  },
+  headerTitleStyle: material.titleWhite,
+  headerTintColor: '#fff',
+}
 const Navigator = StackNavigator({
   Main: { 
     screen: Main,
     navigationOptions: ({navigation, screenProps}) => ({
+      ...navigationOptionsCommon,
       title: 'Low Tide Predictor',
-      headerStyle: {
-        backgroundColor: '#977651',
-      },
-      headerTitleStyle: material.titleWhite,
-      headerTintColor: '#fff',
       headerRight: (
         <TouchableOpacity
           onPress={() => navigation.navigate('Settings')}
@@ -48,12 +56,36 @@ const Navigator = StackNavigator({
   Settings: { 
     screen: Settings,
     navigationOptions: {
+      ...navigationOptionsCommon,
       title: 'Settings',
-      headerStyle: {
-        backgroundColor: '#977651',
-      },
-      headerTitleStyle: material.titleWhite,
-      headerTintColor: '#fff',
+    }
+  },
+  SettingsDays: {
+    screen: SettingsDays,
+    navigationOptions: {
+      ...navigationOptionsCommon,
+      title: 'Days',
+    }
+  },
+  SettingsDepth: {
+    screen: SettingsDepth,
+    navigationOptions: {
+      ...navigationOptionsCommon,
+      title: 'Depth',
+    }
+  },
+  SettingsStartHour: {
+    screen: SettingsStartHour,
+    navigationOptions: {
+      ...navigationOptionsCommon,
+      title: 'Start Hour',
+    }
+  },
+  SettingsEndHour: {
+    screen: SettingsEndHour,
+    navigationOptions: {
+      ...navigationOptionsCommon,
+      title: 'End Hour',
     }
   },
 },{
